@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Winky Cow</title>
+    <style>
+      body {
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-image: url("rainbow.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        margin: 0;
+        overflow: hidden;
+        position: relative;
+        display: flex;
+      }
+
+      h1 {
+        color: blue;
+      }
+
+      .moving-cow {
+        position: absolute;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+        user-drag: none;
+        -webkit-user-drag: none;
+      }
+    </style>
+  </head>
+  <body>
+    <img
+      style="width: 100px"
+      src="cow.gif"
+      alt="Moving Cow"
+      class="moving-cow"
+      id="cow"
+    />
+    <audio id="mooSound" src="moo.mp3"></audio>
+    <h1>Click the cow for moo's</h1>
+    <script>
+      const cow = document.getElementById("cow");
+      let currentPositionX = 0;
+      let currentPositionY = 0;
+      let speedX = 2;
+      let speedY = 1;
+
+      const playMooSound = () => {
+        mooSound.currentTime = 0;
+        mooSound.play();
+      };
+
+      cow.addEventListener("click", playMooSound);
+
+      const moveCow = () => {
+        currentPositionX += speedX;
+        currentPositionY += speedY;
+
+        cow.style.left = currentPositionX + "px";
+        cow.style.top = currentPositionY + "px";
+
+        if (
+          currentPositionX <= 0 ||
+          currentPositionX >= window.innerWidth - cow.clientWidth ||
+          currentPositionY <= 0 ||
+          currentPositionY >= window.innerHeight - cow.clientHeight
+        ) {
+          speedX *= -1;
+          speedY *= -1;
+        }
+
+        requestAnimationFrame(moveCow);
+      };
+
+      moveCow();
+    </script>
+  </body>
+</html>
